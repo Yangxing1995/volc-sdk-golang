@@ -17,13 +17,9 @@ type ResponseMetadata struct {
 	Error     *ErrorObj `json:",omitempty"`
 }
 
-type BaseFindCond struct {
+type DescribeLoadBalancersRequest struct {
 	PageNum  *int64 `json:",omitempty"`
 	PageSize *int64 `json:",omitempty"`
-}
-
-type DescribeLoadBalancersRequest struct {
-	BaseFindCond
 }
 
 type DescribeLoadBalancersResponse struct {
@@ -150,7 +146,8 @@ type DescribeLoadBalancerAttributesResult struct {
 }
 
 type DescribeListenersRequest struct {
-	BaseFindCond
+	PageNum        *int64  `json:",omitempty"`
+	PageSize       *int64  `json:",omitempty"`
 	LoadBalancerId *string `json:"LoadBalancerId"`
 }
 

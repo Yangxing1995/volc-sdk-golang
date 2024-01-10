@@ -10,7 +10,7 @@ import (
 
 const (
 	DefaultRegion  = "cn-beijing"
-	ServiceVersion = "2023-01-01"
+	ServiceVersion = "2020-04-01"
 	ServiceName    = "CLB"
 )
 

@@ -23,7 +23,8 @@ type BaseFindCond struct {
 }
 
 type DescribeLoadBalancersRequest struct {
-	BaseFindCond
+	PageNum  *int64 `json:",omitempty"`
+	PageSize *int64 `json:",omitempty"`
 }
 
 type DescribeLoadBalancersResponse struct {

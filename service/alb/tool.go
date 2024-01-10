@@ -1,9 +1,9 @@
 package alb
 
-func (s *CLB) SendCommonRequest(action string, in interface{}, out interface{}) error {
+func (s *ALB) SendCommonRequest(action string, in interface{}, out interface{}) error {
 	return s.post(action, in, out)
 }
 
-func (s *CLB) ValidateResponse(meta *ResponseMetadata) error {
+func (s *ALB) ValidateResponse(meta *ResponseMetadata) error {
 	return validateResponse(meta)
 }
