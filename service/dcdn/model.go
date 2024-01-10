@@ -162,6 +162,22 @@ type DescribeDomainDetailResult struct {
 	} `json:"UrlRedirect"`
 }
 
+type UploadSelfCertRequest struct {
+	CertName   *string `json:",omitempty"`
+	CertPEM    *string `json:",omitempty"`
+	CertSource *string `json:",omitempty"` // volc
+	KeyPEM     *string `json:",omitempty"`
+}
+
+type UploadSelfCertResponse struct {
+	ResponseMetadata *ResponseMetadata `json:",omitempty"`
+	Result           UploadSelfCertResult
+}
+
+type UploadSelfCertResult struct {
+	CertId string `json:"CertId"`
+}
+
 type CreateCertBindRequest struct {
 	CertID    string   `json:"CertId"`
 	DomainIds []string `json:"DomainIds"`

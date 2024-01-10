@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	DefaultRegion  = "cn-beijing"
+	DefaultRegion  = "cn-north-1"
 	ServiceVersion = "2023-01-01"
 	ServiceName    = "DCDN"
 )

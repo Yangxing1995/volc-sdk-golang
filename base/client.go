@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/cenkalti/backoff/v4"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/net/http/httpproxy"
 )
 
@@ -355,6 +356,9 @@ func (client *Client) request(ctx context.Context, api string, query url.Values,
 		Path:     apiInfo.Path,
 		RawQuery: query.Encode(),
 	}
+
+	logrus.Debugf("url:%s method:%s", u.String(), apiInfo.Method)
+
 	requestBody := bytes.NewReader(body)
 	req, err := http.NewRequest(strings.ToUpper(apiInfo.Method), u.String(), nil)
 	if err != nil {

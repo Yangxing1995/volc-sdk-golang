@@ -24,6 +24,14 @@ var ApiInfoList = map[string]*base.ApiInfo{
 			"Version": []string{ServiceVersion},
 		},
 	},
+	"UploadSelfCert": {
+		Method: http.MethodPost,
+		Path:   "/",
+		Query: url.Values{
+			"Action":  []string{"UploadSelfCert"},
+			"Version": []string{ServiceVersion},
+		},
+	},
 	"CreateCertBind": {
 		Method: http.MethodPost,
 		Path:   "/",
