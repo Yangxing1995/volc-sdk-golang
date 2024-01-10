@@ -194,7 +194,8 @@ func sortHeaders(requestSignMap map[string][]string, signMap map[string][]string
 	for k, v := range requestSignMap {
 		signMap[strings.ToLower(k)] = v
 		switch k {
-		case "Content-Type", "Content-Md5", "Host", "X-Security-Token":
+		//case "Content-Type", "Content-Md5", "Host", "X-Security-Token":
+		case "Content-Type", "Content-Md5", "X-Security-Token":
 		default:
 			if !strings.HasPrefix(k, "X-") {
 				continue

@@ -2,7 +2,10 @@
 <h1 align="center">火山引擎SDK for Go</h1> 
 欢迎使用火山引擎SDK for Go，本文档为您介绍如何获取及调用SDK。
 
-******补充DCDN、clb、alb 服务******
+
+******Fork后改动******
+- 补充DCDN、clb、alb服务的部分接口
+- 修改签名方法：host不计入签名
 
 ## 前置准备
 ### 服务开通
