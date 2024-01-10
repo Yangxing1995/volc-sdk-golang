@@ -41,7 +41,7 @@ var ApiInfoList = map[string]*base.ApiInfo{
 		},
 	},
 	"UploadCertificate": {
-		Method: http.MethodPost,
+		Method: http.MethodGet,
 		Path:   "/",
 		Query: url.Values{
 			"Action":  []string{"UploadCertificate"},
