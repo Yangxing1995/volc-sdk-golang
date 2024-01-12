@@ -40,6 +40,14 @@ var ApiInfoList = map[string]*base.ApiInfo{
 			"Version": []string{ServiceVersion},
 		},
 	},
+	"DescribeRules": {
+		Method: http.MethodGet,
+		Path:   "/",
+		Query: url.Values{
+			"Action":  []string{"DescribeRules"},
+			"Version": []string{ServiceVersion},
+		},
+	},
 	"UploadCertificate": {
 		Method: http.MethodGet,
 		Path:   "/",

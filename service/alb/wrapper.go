@@ -45,6 +45,18 @@ func (s *ALB) ModifyListenerAttributes(dto *ModifyListenerAttributesRequest, opt
 	return
 }
 
+// DescribeRules .
+func (s *ALB) DescribeRules(dto *DescribeRulesRequest, options ...OptionArg) (responseBody *DescribeRulesResponse, err error) {
+	responseBody = new(DescribeRulesResponse)
+	if err = s.post("DescribeRules", dto, responseBody, options...); err != nil {
+		return
+	}
+	if err = validateResponse(responseBody.ResponseMetadata); err != nil {
+		return
+	}
+	return
+}
+
 // UploadCertificate .
 func (s *ALB) UploadCertificate(dto *UploadCertificateRequest, options ...OptionArg) (responseBody *UploadCertificateResponse, err error) {
 	responseBody = new(UploadCertificateResponse)

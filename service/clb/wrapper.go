@@ -45,6 +45,18 @@ func (s *CLB) ModifyListenerAttributes(dto *ModifyListenerAttributesRequest, opt
 	return
 }
 
+// DescribeRules .
+func (s *CLB) DescribeRules(dto *DescribeRulesRequest, options ...OptionArg) (responseBody *DescribeRulesResponse, err error) {
+	responseBody = new(DescribeRulesResponse)
+	if err = s.post("DescribeRules", dto, responseBody, options...); err != nil {
+		return
+	}
+	if err = validateResponse(responseBody.ResponseMetadata); err != nil {
+		return
+	}
+	return
+}
+
 // UploadCertificate .
 // 证书的格式要求 https://www.volcengine.com/docs/6406/68086
 func (s *CLB) UploadCertificate(dto *UploadCertificateRequest, options ...OptionArg) (responseBody *UploadCertificateResponse, err error) {

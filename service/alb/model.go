@@ -198,6 +198,28 @@ type ModifyListenerAttributesResponse struct {
 	ResponseMetadata *ResponseMetadata `json:"ResponseMetadata"`
 }
 
+type DescribeRulesRequest struct {
+	ListenerId string `json:"ListenerId"`
+}
+
+type DescribeRulesResponse struct {
+	ResponseMetadata *ResponseMetadata   `json:"ResponseMetadata"`
+	Result           DescribeRulesResult `json:"Result"`
+}
+
+type DescribeRulesResult struct {
+	RequestID string   `json:"RequestId"`
+	Rules     []*Rules `json:"Rules"`
+}
+
+type Rules struct {
+	RuleID        string `json:"RuleId"`
+	Domain        string `json:"Domain"`
+	URL           string `json:"Url"`
+	ServerGroupID string `json:"ServerGroupId"`
+	Description   string `json:"Description"`
+}
+
 type UploadCertificateRequest struct {
 	CertificateName *string `json:"CertificateName"`
 	CertificateType string  `json:"CertificateType,default:Server"`

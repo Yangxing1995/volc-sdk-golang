@@ -28,15 +28,15 @@ type DescribeLoadBalancersResponse struct {
 }
 
 type DescribeLoadBalancersResult struct {
-	RequestID     string           `json:"RequestId"`
-	AccountID     string           `json:"AccountId"`
-	PageNumber    int              `json:"PageNumber"`
-	PageSize      int              `json:"PageSize"`
-	TotalCount    int              `json:"TotalCount"`
-	LoadBalancers []*LoadBalancers `json:"LoadBalancers"`
+	RequestID     string          `json:"RequestId"`
+	AccountID     string          `json:"AccountId"`
+	PageNumber    int             `json:"PageNumber"`
+	PageSize      int             `json:"PageSize"`
+	TotalCount    int             `json:"TotalCount"`
+	LoadBalancers []*LoadBalancer `json:"LoadBalancers"`
 }
 
-type LoadBalancers struct {
+type LoadBalancer struct {
 	ExclusiveClusterID           string    `json:"ExclusiveClusterId"`
 	LoadBalancerID               string    `json:"LoadBalancerId"`
 	LoadBalancerName             string    `json:"LoadBalancerName"`
@@ -213,6 +213,28 @@ type ModifyListenerAttributesRequest struct {
 
 type ModifyListenerAttributesResponse struct {
 	ResponseMetadata *ResponseMetadata `json:"ResponseMetadata"`
+}
+
+type DescribeRulesRequest struct {
+	ListenerId *string `json:",omitempty"` // required
+}
+
+type DescribeRulesResponse struct {
+	ResponseMetadata *ResponseMetadata   `json:"ResponseMetadata"`
+	Result           DescribeRulesResult `json:"Result"`
+}
+
+type DescribeRulesResult struct {
+	RequestID string  `json:"RequestId"`
+	Rules     []*Rule `json:"Rules"`
+}
+
+type Rule struct {
+	RuleID        string `json:"RuleId"`
+	Domain        string `json:"Domain"`
+	URL           string `json:"Url"`
+	ServerGroupID string `json:"ServerGroupId"`
+	Description   string `json:"Description"`
 }
 
 type UploadCertificateRequest struct {
