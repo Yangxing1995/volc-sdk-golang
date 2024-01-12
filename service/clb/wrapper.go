@@ -46,6 +46,7 @@ func (s *CLB) ModifyListenerAttributes(dto *ModifyListenerAttributesRequest, opt
 }
 
 // UploadCertificate .
+// 证书的格式要求 https://www.volcengine.com/docs/6406/68086
 func (s *CLB) UploadCertificate(dto *UploadCertificateRequest, options ...OptionArg) (responseBody *UploadCertificateResponse, err error) {
 	responseBody = new(UploadCertificateResponse)
 	if err = s.post("UploadCertificate", dto, responseBody, options...); err != nil {

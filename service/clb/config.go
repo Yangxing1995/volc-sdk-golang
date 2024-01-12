@@ -15,6 +15,14 @@ const (
 )
 
 var (
+	AllRegions = []string{
+		DefaultRegion,
+		"cn-shanghai",
+		"cn-guangzhou",
+	}
+)
+
+var (
 	ServiceInfo = map[string]*base.ServiceInfo{
 		DefaultRegion: {
 			Host:    "open.volcengineapi.com",

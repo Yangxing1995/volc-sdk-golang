@@ -27,6 +27,14 @@ var (
 	}
 )
 
+var (
+	AllRegions = []string{
+		DefaultRegion,
+		"cn-shanghai",
+		"cn-guangzhou",
+	}
+)
+
 // DefaultInstance Package level default instance
 var DefaultInstance = NewInstance()
 
