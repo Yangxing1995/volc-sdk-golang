@@ -190,8 +190,8 @@ type ServerGroup struct {
 }
 
 type ModifyListenerAttributesRequest struct {
-	LoadBalancerId string  `json:"LoadBalancerId"`
-	CertificateId  *string `json:"CertificateId"`
+	ListenerId    string  `json:"ListenerId"`
+	CertificateId *string `json:"CertificateId"`
 }
 
 type ModifyListenerAttributesResponse struct {
