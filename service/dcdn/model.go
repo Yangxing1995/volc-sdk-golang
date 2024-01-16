@@ -40,6 +40,19 @@ type DescribeUserDomainsResult struct {
 	PageSize int `json:"PageSize"`
 }
 
+type DescribeDomainConfigRequest struct {
+	Domains []string `json:"Domains"`
+}
+
+type DescribeDomainConfigResponse struct {
+	ResponseMetadata *ResponseMetadata `json:",omitempty"`
+	Result           DescribeDomainConfigResult
+}
+
+type DescribeDomainConfigResult struct {
+	Domains []*DescribeDomainDetailResult `json:"Domains"`
+}
+
 type DescribeDomainDetailRequest struct {
 	Domain *string `json:"Domain,omitempty"`
 }

@@ -41,26 +41,26 @@ type DescribeLoadBalancersResult struct {
 }
 
 type LoadBalancer struct {
-	LoadBalancerID          string       `json:"LoadBalancerId"`
-	LoadBalancerName        string       `json:"LoadBalancerName"`
-	Status                  string       `json:"Status"`
-	Description             string       `json:"Description"`
-	CreateTime              time.Time    `json:"CreateTime"`
-	UpdateTime              time.Time    `json:"UpdateTime"`
-	Type                    string       `json:"Type"`
-	VpcID                   string       `json:"VpcId"`
-	SubnetID                string       `json:"SubnetId"`
-	EipID                   string       `json:"EipID"`
-	EipAddress              string       `json:"EipAddress"`
-	EniID                   string       `json:"EniID"`
-	EniAddress              string       `json:"EniAddress"`
-	BusinessStatus          string       `json:"BusinessStatus"`
-	LockReason              string       `json:"LockReason"`
-	OverdueTime             string       `json:"OverdueTime"`
-	DeletedTime             string       `json:"DeletedTime"`
-	LoadBalancerBillingType int          `json:"LoadBalancerBillingType"`
-	DNSName                 string       `json:"DNSName"`
-	ZoneMappings            *ZoneMapping `json:"ZoneMappings"`
+	LoadBalancerID          string         `json:"LoadBalancerId"`
+	LoadBalancerName        string         `json:"LoadBalancerName"`
+	Status                  string         `json:"Status"`
+	Description             string         `json:"Description"`
+	CreateTime              time.Time      `json:"CreateTime"`
+	UpdateTime              time.Time      `json:"UpdateTime"`
+	Type                    string         `json:"Type"`
+	VpcID                   string         `json:"VpcId"`
+	SubnetID                string         `json:"SubnetId"`
+	EipID                   string         `json:"EipID"`
+	EipAddress              string         `json:"EipAddress"`
+	EniID                   string         `json:"EniID"`
+	EniAddress              string         `json:"EniAddress"`
+	BusinessStatus          string         `json:"BusinessStatus"`
+	LockReason              string         `json:"LockReason"`
+	OverdueTime             string         `json:"OverdueTime"`
+	DeletedTime             string         `json:"DeletedTime"`
+	LoadBalancerBillingType int            `json:"LoadBalancerBillingType"`
+	DNSName                 string         `json:"DNSName"`
+	ZoneMappings            []*ZoneMapping `json:"ZoneMappings"`
 }
 
 type ZoneMapping struct {
@@ -86,30 +86,30 @@ type DescribeLoadBalancerAttributesResponse struct {
 }
 
 type DescribeLoadBalancerAttributesResult struct {
-	RequestID               string         `json:"RequestId"`
-	LoadBalancerID          string         `json:"LoadBalancerId"`
-	LoadBalancerName        string         `json:"LoadBalancerName"`
-	Status                  string         `json:"Status"`
-	Description             string         `json:"Description"`
-	CreateTime              time.Time      `json:"CreateTime"`
-	UpdateTime              time.Time      `json:"UpdateTime"`
-	Type                    string         `json:"Type"`
-	VpcID                   string         `json:"VpcId"`
-	SubnetID                string         `json:"SubnetId"`
-	EipID                   string         `json:"EipID"`
-	EipAddress              string         `json:"EipAddress"`
-	EniID                   string         `json:"EniID"`
-	EniAddress              string         `json:"EniAddress"`
-	BusinessStatus          string         `json:"BusinessStatus"`
-	LockReason              string         `json:"LockReason"`
-	OverdueTime             string         `json:"OverdueTime"`
-	DeletedTime             string         `json:"DeletedTime"`
-	LoadBalancerBillingType int            `json:"LoadBalancerBillingType"`
-	AccessLog               *AccessLog     `json:"AccessLog"`
-	Eip                     *Eip           `json:"Eip"`
-	Listeners               []*Listener    `json:"Listeners"`
-	DNSName                 string         `json:"DNSName"`
-	ZoneMappings            []*ZoneMapping `json:"ZoneMappings"`
+	RequestID               string            `json:"RequestId"`
+	LoadBalancerID          string            `json:"LoadBalancerId"`
+	LoadBalancerName        string            `json:"LoadBalancerName"`
+	Status                  string            `json:"Status"`
+	Description             string            `json:"Description"`
+	CreateTime              time.Time         `json:"CreateTime"`
+	UpdateTime              time.Time         `json:"UpdateTime"`
+	Type                    string            `json:"Type"`
+	VpcID                   string            `json:"VpcId"`
+	SubnetID                string            `json:"SubnetId"`
+	EipID                   string            `json:"EipID"`
+	EipAddress              string            `json:"EipAddress"`
+	EniID                   string            `json:"EniID"`
+	EniAddress              string            `json:"EniAddress"`
+	BusinessStatus          string            `json:"BusinessStatus"`
+	LockReason              string            `json:"LockReason"`
+	OverdueTime             string            `json:"OverdueTime"`
+	DeletedTime             string            `json:"DeletedTime"`
+	LoadBalancerBillingType int               `json:"LoadBalancerBillingType"`
+	AccessLog               *AccessLog        `json:"AccessLog"`
+	Eip                     *Eip              `json:"Eip"`
+	Listeners               []*SimpleListener `json:"Listeners"`
+	DNSName                 string            `json:"DNSName"`
+	ZoneMappings            []*ZoneMapping    `json:"ZoneMappings"`
 }
 
 type AccessLog struct {
@@ -123,7 +123,7 @@ type Eip struct {
 	EipBillingType int    `json:"EipBillingType"`
 	EipAddress     string `json:"EipAddress"`
 }
-type Listener struct {
+type SimpleListener struct {
 	ListenerID   string `json:"ListenerId"`
 	ListenerName string `json:"ListenerName"`
 }
@@ -140,33 +140,14 @@ type DescribeListenersResponse struct {
 }
 
 type DescribeListenersResult struct {
-	RequestID  string `json:"RequestId"`
-	PageNumber int    `json:"PageNumber"`
-	PageSize   int    `json:"PageSize"`
-	TotalCount int    `json:"TotalCount"`
-	Listeners  []struct {
-		CreateTime    time.Time `json:"CreateTime"`
-		UpdateTime    time.Time `json:"UpdateTime"`
-		ListenerID    string    `json:"ListenerId"`
-		ListenerName  string    `json:"ListenerName"`
-		Enabled       string    `json:"Enabled"`
-		Protocol      string    `json:"Protocol"`
-		Port          int       `json:"Port"`
-		Status        string    `json:"Status"`
-		ServerGroupID string    `json:"ServerGroupId"`
-		ServerGroups  []struct {
-			ServerGroupID   string `json:"ServerGroupId"`
-			ServerGroupName string `json:"ServerGroupName"`
-		} `json:"ServerGroups"`
-		Description   string   `json:"Description,omitempty"`
-		ACLStatus     string   `json:"AclStatus,omitempty"`
-		ACLType       string   `json:"AclType,omitempty"`
-		ACLIds        []string `json:"AclIds,omitempty"`
-		CertificateID string   `json:"CertificateId,omitempty"`
-	}
+	RequestID  string      `json:"RequestId"`
+	PageNumber int         `json:"PageNumber"`
+	PageSize   int         `json:"PageSize"`
+	TotalCount int         `json:"TotalCount"`
+	Listeners  []*Listener `json:"Listeners"`
 }
 
-type Listeners struct {
+type Listener struct {
 	CreateTime    time.Time      `json:"CreateTime"`
 	UpdateTime    time.Time      `json:"UpdateTime"`
 	ListenerID    string         `json:"ListenerId"`

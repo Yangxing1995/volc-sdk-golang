@@ -64,3 +64,22 @@ func TestDCDN_UploadSelfCert(t *testing.T) {
 
 	t.Logf("%s\n", string(jsonBts))
 }
+
+func TestDCDN_DescribeDomainConfig(t *testing.T) {
+	s := NewInstance()
+	s.Client.SetAccessKey(_testAk)
+	s.Client.SetSecretKey(_testSk)
+
+	gotResponseBody, err := s.DescribeDomainConfig(&DescribeDomainConfigRequest{
+		Domains: []string{"fast2.ldlb.site"},
+	})
+	if err != nil {
+		t.Errorf("DCDN.DescribeDomainConfig() error = %v", err)
+		return
+	}
+
+	jsonBts, _ := json.MarshalIndent(gotResponseBody, "", "  ")
+
+	t.Logf("%s\n", string(jsonBts))
+
+}

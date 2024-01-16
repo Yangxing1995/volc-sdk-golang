@@ -10,7 +10,7 @@ import (
 
 const (
 	DefaultRegion  = "cn-north-1"
-	ServiceVersion = "2023-01-01"
+	ServiceVersion = "2021-04-01"
 	ServiceName    = "DCDN"
 )
 

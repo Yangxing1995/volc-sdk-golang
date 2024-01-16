@@ -13,7 +13,7 @@ var ApiInfoList = map[string]*base.ApiInfo{
 		Path:   "/",
 		Query: url.Values{
 			"Action":  []string{"DescribeUserDomains"},
-			"Version": []string{ServiceVersion},
+			"Version": []string{"2023-01-01"},
 		},
 	},
 	"DescribeDomainDetail": {
@@ -21,6 +21,14 @@ var ApiInfoList = map[string]*base.ApiInfo{
 		Path:   "/",
 		Query: url.Values{
 			"Action":  []string{"DescribeDomainDetail"},
+			"Version": []string{ServiceVersion},
+		},
+	},
+	"DescribeDomainConfig": {
+		Method: http.MethodPost,
+		Path:   "/",
+		Query: url.Values{
+			"Action":  []string{"DescribeDomainConfig"},
 			"Version": []string{ServiceVersion},
 		},
 	},
