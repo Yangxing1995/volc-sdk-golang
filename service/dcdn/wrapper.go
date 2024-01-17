@@ -45,6 +45,7 @@ func (s *DCDN) UploadSelfCert(dto *UploadSelfCertRequest, options ...OptionArg) 
 	return
 }
 
+// CreateCertBind 此API可能存在问题, 请谨慎使用
 func (s *DCDN) CreateCertBind(dto *CreateCertBindRequest, options ...OptionArg) (responseBody *CreateCertBindResponse, err error) {
 	responseBody = new(CreateCertBindResponse)
 	if err = s.post("CreateCertBind", dto, responseBody, options...); err != nil {
