@@ -69,7 +69,6 @@ func (s *ALB) post(apiName string, requestBody interface{}, responseBody interfa
 
 	if option.useGet {
 		if s.SetMethod(apiName, http.MethodGet) {
-			defer s.SetMethod(apiName, http.MethodPost)
 		} else {
 			err = fmt.Errorf("set method falied")
 			return

@@ -65,7 +65,6 @@ func (s *DCDN) post(apiName string, requestBody interface{}, responseBody interf
 		option = options[0]
 		if option.useGet {
 			if s.SetMethod(apiName, http.MethodGet) {
-				defer s.SetMethod(apiName, http.MethodPost)
 			} else {
 				err = fmt.Errorf("set method falied")
 				return
