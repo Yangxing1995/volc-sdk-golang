@@ -192,8 +192,10 @@ type UploadSelfCertResult struct {
 }
 
 type CreateCertBindRequest struct {
-	CertID    string   `json:"CertId"`
-	DomainIds []string `json:"DomainIds"`
+	CertID string `json:"CertId"`
+
+	DomainIds   []string `json:"DomainIds"`
+	DomainNames []string `json:"DomainNames"`
 }
 
 type CreateCertBindResponse struct {
