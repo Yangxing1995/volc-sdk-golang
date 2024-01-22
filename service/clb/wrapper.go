@@ -69,3 +69,15 @@ func (s *CLB) UploadCertificate(dto *UploadCertificateRequest, options ...Option
 	}
 	return
 }
+
+// DescribeCertificates .
+func (s *CLB) DescribeCertificates(dto *DescribeCertificatesRequest, options ...OptionArg) (responseBody *DescribeCertificatesResponse, err error) {
+	responseBody = new(DescribeCertificatesResponse)
+	if err = s.post("DescribeCertificates", dto, responseBody, options...); err != nil {
+		return
+	}
+	if err = validateResponse(responseBody.ResponseMetadata); err != nil {
+		return
+	}
+	return
+}

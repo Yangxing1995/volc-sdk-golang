@@ -61,19 +61,21 @@ func (s *Certificate) post(apiName string, requestBody interface{}, responseBody
 	}
 	query := url.Values{}
 	option := OptionArg{useGet: false}
+	option.useGet = s.GetMethod(apiName) == http.MethodGet
+
 	if len(options) > 0 {
 		option = options[0]
-		if option.useGet {
-			if s.SetMethod(apiName, http.MethodGet) {
-				defer s.SetMethod(apiName, http.MethodPost)
-			} else {
-				err = fmt.Errorf("set method falied")
-				return
-			}
-			query, err = MergeQueryArgs(requestBody, query)
-			if err != nil {
-				return
-			}
+	}
+
+	if option.useGet {
+		if s.SetMethod(apiName, http.MethodGet) {
+		} else {
+			err = fmt.Errorf("set method falied")
+			return
+		}
+		query, err = MergeQueryArgs(requestBody, query)
+		if err != nil {
+			return
 		}
 	}
 

@@ -10,3 +10,14 @@ func (s *Certificate) ImportCertificate(dto *ImportCertificateRequest, options .
 	}
 	return
 }
+
+func (s *Certificate) CertificateGetInstance(dto *CertificateGetInstanceRequest, options ...OptionArg) (responseBody *CertificateGetInstanceResponse, err error) {
+	responseBody = new(CertificateGetInstanceResponse)
+	if err = s.post("CertificateGetInstance", dto, responseBody, options...); err != nil {
+		return
+	}
+	if err = validateResponse(responseBody.ResponseMetadata); err != nil {
+		return
+	}
+	return
+}

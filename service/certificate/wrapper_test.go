@@ -43,3 +43,24 @@ func TestCertificate_ImportCertificate(t *testing.T) {
 
 	t.Logf("%s\n", string(jsonBts))
 }
+
+func TestCertificate_CertificateGetInstance(t *testing.T) {
+	s := NewInstance()
+	s.Client.SetAccessKey(_testAk)
+	s.Client.SetSecretKey(_testSk)
+
+	limit := int64(2)
+	page := int64(2)
+	gotResponseBody, err := s.CertificateGetInstance(&CertificateGetInstanceRequest{
+		Limit: &limit,
+		Page:  &page,
+	})
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	jsonBts, _ := json.MarshalIndent(gotResponseBody, "", "  ")
+
+	t.Logf("%s\n", string(jsonBts))
+}

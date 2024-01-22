@@ -254,3 +254,32 @@ type UploadCertificateResult struct {
 	RequestId     string `json:"RequestId"`
 	CertificateId string `json:"CertificateId"`
 }
+
+type DescribeCertificatesRequest struct {
+	PageNumber *int64 `json:",omitempty"` // default: 1
+	PageSize   *int64 `json:",omitempty"` // default: 20
+}
+
+type DescribeCertificatesResponse struct {
+	ResponseMetadata *ResponseMetadata          `json:"ResponseMetadata"`
+	Result           DescribeCertificatesResult `json:"Result"`
+}
+
+type DescribeCertificatesResult struct {
+	RequestId    string         `json:"RequestId"`
+	PageNumber   int            `json:"PageNumber"`
+	PageSize     int            `json:"PageSize"`
+	TotalCount   int            `json:"TotalCount"`
+	Certificates []*Certificate `json:"Certificates"`
+}
+
+type Certificate struct {
+	CertificateId   string    `json:"CertificateId"`
+	CertificateName string    `json:"CertificateName"`
+	Description     string    `json:"Description"`
+	CreateTime      time.Time `json:"CreateTime"`
+	ExpiredAt       time.Time `json:"ExpiredAt"`
+	DomainName      string    `json:"DomainName"`
+	Listeners       []string  `json:"Listeners"` // listener id list
+	ProjectName     string    `json:"ProjectName"`
+}
