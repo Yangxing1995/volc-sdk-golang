@@ -49,8 +49,8 @@ func TestCertificate_CertificateGetInstance(t *testing.T) {
 	s.Client.SetAccessKey(_testAk)
 	s.Client.SetSecretKey(_testSk)
 
-	limit := int64(2)
-	page := int64(2)
+	limit := int64(4)
+	page := int64(1)
 	gotResponseBody, err := s.CertificateGetInstance(&CertificateGetInstanceRequest{
 		Limit: &limit,
 		Page:  &page,

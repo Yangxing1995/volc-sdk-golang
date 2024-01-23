@@ -1,6 +1,7 @@
 package cdn
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"testing"
@@ -25,8 +26,8 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	ak := os.Getenv("testAk")
-	sk := os.Getenv("testSk")
+	ak := os.Getenv("TEST_AK")
+	sk := os.Getenv("TEST_SK")
 	host := os.Getenv("host")
 	if ak != "" && sk != "" {
 		testAk = ak
@@ -45,7 +46,7 @@ func TestMain(m *testing.M) {
 func TestCDN_AddCdnDomain(t *testing.T) {
 	resp, err := DefaultInstance.AddCdnDomain(&AddCdnDomainRequest{
 		Domain:      testDomain2,
-		ServiceType: GetStrPtr("web"),
+		ServiceType: "web",
 		Origin: []OriginRule{
 			{OriginAction: &OriginAction{
 				OriginLines: []OriginLine{
@@ -94,13 +95,42 @@ func TestCDN_ListCdnDomains(t *testing.T) {
 // 域名配置
 
 func TestCDN_DescribeCdnConfig(t *testing.T) {
-	resp, err := DefaultInstance.DescribeCdnConfig(&DescribeCdnConfigRequest{
-		Domain: testDomain2,
+	t.Run("get one", func(t *testing.T) {
+		resp, err := DefaultInstance.DescribeCdnConfig(&DescribeCdnConfigRequest{
+			Domain: testDomain2,
+		})
+		assert.NoError(t, err)
+		assert.NotNil(t, resp.Result.DomainConfig)
+		domain := resp.Result.DomainConfig
+		fmt.Printf("%+v\n", domain)
 	})
-	assert.NoError(t, err)
-	assert.NotNil(t, resp.Result.DomainConfig)
-	domain := resp.Result.DomainConfig
-	fmt.Printf("%+v\n", domain)
+
+	t.Run("get all", func(t *testing.T) {
+		resp, err := DefaultInstance.ListCdnDomains(&ListCdnDomainsRequest{})
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		for _, domain := range resp.Result.Data {
+			config, err := DefaultInstance.DescribeCdnConfig(&DescribeCdnConfigRequest{
+				Domain: domain.Domain,
+			})
+
+			if err != nil {
+				t.Fatal(err)
+			}
+			t.Logf("d:%s\n ", *config.Result.DomainConfig.Domain)
+
+			if config.Result.DomainConfig.HTTPS != nil && config.Result.DomainConfig.HTTPS.CertInfo != nil {
+
+				bts, _ := json.Marshal(config.Result.DomainConfig.HTTPS.CertInfo)
+				t.Logf("cert:%s\n ", string(bts))
+
+			}
+		}
+
+	})
+
 }
 
 func TestCDN_UpdateCdnConfig(t *testing.T) {

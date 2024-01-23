@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"strings"
 )
 
 type CDNError struct {
@@ -124,7 +125,26 @@ func MergeQueryArgs(body interface{}, query url.Values) (url.Values, error) {
 			}
 			return nil, fmt.Errorf("don't support struct or array")
 		}
-		query.Set(t.Field(i).Name, fmt.Sprintf("%v", vi.Interface()))
+
+		field := t.Field(i)
+
+		tag := field.Tag.Get("json")
+
+		// 解析标签，考虑omitempty
+		tagParts := strings.Split(tag, ",")
+		key := tagParts[0]
+
+		// 如果有JSON标签，则使用标签作为键，否则使用字段名
+		if key == "" {
+			key = field.Name
+		}
+
+		// 将字段名和对应的值存入map，但排除空值字段（omitempty）
+		fieldValue := vi.Interface()
+		isEmpty := reflect.DeepEqual(fieldValue, reflect.Zero(field.Type).Interface())
+		if !isEmpty || (isEmpty && len(tagParts) > 1 && tagParts[1] != "omitempty") {
+			query.Set(key, fmt.Sprintf("%v", fieldValue))
+		}
 	}
 	return query, nil
 }

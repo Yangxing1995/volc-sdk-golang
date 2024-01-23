@@ -54,10 +54,10 @@ type LoadBalancer struct {
 	AddressIPVersion             string    `json:"AddressIpVersion"`
 	EipID                        string    `json:"EipID"`
 	Ipv6EipID                    string    `json:"Ipv6EipId"`
-	EipAddress                   string    `json:"EipAddress"`
+	EipAddress                   string    `json:"EipAddress"` // 公网
 	EniIpv6Address               string    `json:"EniIpv6Address"`
 	EniID                        string    `json:"EniID"`
-	EniAddress                   string    `json:"EniAddress"`
+	EniAddress                   string    `json:"EniAddress"` // 私网
 	BusinessStatus               string    `json:"BusinessStatus"`
 	LockReason                   string    `json:"LockReason"`
 	OverdueTime                  string    `json:"OverdueTime"`
@@ -105,7 +105,7 @@ type DescribeLoadBalancerAttributesResult struct {
 	EipAddress                   string                `json:"EipAddress"`
 	EniIpv6Address               string                `json:"EniIpv6Address"`
 	EniID                        string                `json:"EniID"`
-	EniAddress                   string                `json:"EniAddress"`
+	EniAddress                   string                `json:"EniAddress"` // 私网
 	BusinessStatus               string                `json:"BusinessStatus"`
 	LockReason                   string                `json:"LockReason"`
 	LogTopicID                   string                `json:"LogTopicId"`

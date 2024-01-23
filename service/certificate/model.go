@@ -53,11 +53,10 @@ type ImportCertificateResult struct {
 }
 
 type CertificateGetInstanceRequest struct {
-	Limit            *int64 `json:",omitempty"` // max100
-	Offset           *int64 `json:",omitempty"` // default 0
-	Page             *int64 `json:",omitempty"` // 设置要返回的证书所在的页码。默认值：1。 该参数必须与limit同时使用。 page与offset二选一。如果您同时设置了page和offset，则只有page会生效。
-	CertificateExist *bool  `json:",omitempty"` // 是否只返回已签发的证书。该参数有以下取值： true：是  false：否
-
+	Limit            *int64 `json:"limit,omitempty"`             // max100
+	Offset           *int64 `json:"offset,omitempty"`            // default 0
+	Page             *int64 `json:"page,omitempty"`              // 设置要返回的证书所在的页码。默认值：1。 该参数必须与limit同时使用。 page与offset二选一。如果您同时设置了page和offset，则只有page会生效。
+	CertificateExist *bool  `json:"certificate_exist,omitempty"` // 是否只返回已签发的证书。该参数有以下取值： true：是  false：否
 }
 
 type CertificateGetInstanceResponse struct {
@@ -71,35 +70,35 @@ type CertificateGetInstance struct {
 }
 
 type CertificateResult struct {
-	Id                   string      `json:"id"`
-	ParentId             string      `json:"parent_id"`
-	ChainId              string      `json:"chain_id"`
-	Upstream             string      `json:"upstream"`
-	UpstreamFilter       string      `json:"upstream_filter"`
-	Deleted              int         `json:"deleted"`
-	SourceParentId       string      `json:"source_parent_id"`
-	SourceId             string      `json:"source_id"`
-	Number               int         `json:"number"`
-	CertType             int         `json:"cert_type"`
-	InstanceType         int         `json:"instance_type"`
-	Disabled             int         `json:"disabled"`
-	Tag                  string      `json:"tag"`
-	Purpose              string      `json:"purpose"`
-	Type                 string      `json:"type"`
-	CommonName           string      `json:"common_name"`
-	ApplicableDomains    string      `json:"applicable_domains"`
-	OrderExist           int         `json:"order_exist"`
-	OrderBrand           string      `json:"order_brand"`
-	OrderSanNumber       int         `json:"order_san_number"`
-	OrderStatus          int         `json:"order_status"`
-	OrderRequireProgress int         `json:"order_require_progress"`
-	CertificateExist     int         `json:"certificate_exist"`
-	CertificateRevoked   int         `json:"certificate_revoked"`
-	DeployInfo           interface{} `json:"deploy_info"`
-	ProjectName          string      `json:"project_name"`
-	Issuer               string      `json:"issuer"`
-	IsSm                 bool        `json:"is_sm"`
-	OrderPeriod          int         `json:"order_period"`
+	Id                   string           `json:"id"`
+	ParentId             string           `json:"parent_id"`
+	ChainId              string           `json:"chain_id"`
+	Upstream             string           `json:"upstream"`
+	UpstreamFilter       string           `json:"upstream_filter"`
+	Deleted              int              `json:"deleted"`
+	SourceParentId       string           `json:"source_parent_id"`
+	SourceId             string           `json:"source_id"`
+	Number               int              `json:"number"`
+	CertType             int              `json:"cert_type"`
+	InstanceType         int              `json:"instance_type"`
+	Disabled             int              `json:"disabled"`
+	Tag                  string           `json:"tag"`
+	Purpose              string           `json:"purpose"`
+	Type                 string           `json:"type"`
+	CommonName           string           `json:"common_name"`
+	ApplicableDomains    string           `json:"applicable_domains"`
+	OrderExist           int              `json:"order_exist"`
+	OrderBrand           string           `json:"order_brand"`
+	OrderSanNumber       int              `json:"order_san_number"`
+	OrderStatus          int              `json:"order_status"`
+	OrderRequireProgress int              `json:"order_require_progress"`
+	CertificateExist     int              `json:"certificate_exist"`
+	CertificateRevoked   int              `json:"certificate_revoked"`
+	DeployInfo           []*DeployService `json:"deploy_info"`
+	ProjectName          string           `json:"project_name"`
+	Issuer               string           `json:"issuer"`
+	IsSm                 bool             `json:"is_sm"`
+	OrderPeriod          int              `json:"order_period"`
 	OrderOrganization    struct {
 		Department           string `json:"department"`
 		Name                 string `json:"name"`
@@ -169,6 +168,11 @@ type CertificateResult struct {
 	CertificateNotBeforeMs      int64             `json:"certificate_not_before_ms"`
 	CertificateDetail           CertificateDetail `json:"certificate_detail"`
 	EncryptionCertificateDetail CertificateDetail `json:"encryption_certificate_detail"` // SM2 国密
+}
+
+type DeployService struct {
+	BindingDomains []string `json:"binding_domains"`
+	Service        string   `json:"service"` //DCDN、CDN
 }
 
 type CertificateDetail struct {
