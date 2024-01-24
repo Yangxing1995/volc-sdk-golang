@@ -26,8 +26,8 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	ak := os.Getenv("TEST_AK")
-	sk := os.Getenv("TEST_SK")
+	ak := os.Getenv("BS_AK")
+	sk := os.Getenv("BS_SK")
 	host := os.Getenv("host")
 	if ak != "" && sk != "" {
 		testAk = ak
@@ -106,7 +106,13 @@ func TestCDN_DescribeCdnConfig(t *testing.T) {
 	})
 
 	t.Run("get all", func(t *testing.T) {
-		resp, err := DefaultInstance.ListCdnDomains(&ListCdnDomainsRequest{})
+		pageSize := int64(100)
+		page := int64(1)
+
+		resp, err := DefaultInstance.ListCdnDomains(&ListCdnDomainsRequest{
+			PageSize: &pageSize,
+			PageNum:  &page,
+		})
 		if err != nil {
 			t.Fatal(err)
 		}

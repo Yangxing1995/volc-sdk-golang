@@ -49,9 +49,7 @@ type DescribeDomainConfigResponse struct {
 	Result           DescribeDomainConfigResult
 }
 
-type DescribeDomainConfigResult struct {
-	Domains []*DescribeDomainDetailResult `json:"Domains"`
-}
+type DescribeDomainConfigResult = []*DescribeDomainDetailResult
 
 type DescribeDomainDetailRequest struct {
 	Domain *string `json:"Domain,omitempty"`
@@ -63,13 +61,46 @@ type DescribeDomainDetailResponse struct {
 }
 
 type DescribeDomainDetailResult struct {
-	Domain     string `json:"Domain"`
-	Cname      string `json:"Cname"`
-	Status     string `json:"Status"`
-	UserName   string `json:"UserName"`
-	CreateTime string `json:"CreateTime"`
-	UpdateTime string `json:"UpdateTime"`
-	Origin     struct {
+	BrCompress struct {
+		Enable bool `json:"Enable"`
+	} `json:"BrCompress"`
+	CaCertId string `json:"CaCertId"`
+	Cache    struct {
+		AdaptCache   bool `json:"AdaptCache"`
+		CacheKeyRule struct {
+			IgnoreCase        bool   `json:"IgnoreCase"`
+			ParamsFilterType  string `json:"ParamsFilterType"`
+			ParamsReserveList string `json:"ParamsReserveList"`
+		} `json:"CacheKeyRule"`
+		CacheKeyRules []struct {
+			Contents          string `json:"Contents"`
+			IgnoreCase        bool   `json:"IgnoreCase"`
+			ParamsFilterType  string `json:"ParamsFilterType"`
+			ParamsReserveList string `json:"ParamsReserveList"`
+			Type              string `json:"Type"`
+		} `json:"CacheKeyRules"`
+		Enable              bool `json:"Enable"`
+		StatusCodeCacheRule struct {
+			Enable bool `json:"Enable"`
+			Rules  []struct {
+				CacheTime     int    `json:"CacheTime"`
+				CacheTimeUnit string `json:"CacheTimeUnit"`
+				RespCode      string `json:"RespCode"`
+				RespUrl       string `json:"RespUrl"`
+				Status        string `json:"Status"`
+			} `json:"Rules"`
+		} `json:"StatusCodeCacheRule"`
+	} `json:"Cache"`
+	Domain       string `json:"Domain"`
+	Cname        string `json:"Cname"`
+	Status       string `json:"Status"`
+	UserName     string `json:"UserName"`
+	CreateTime   string `json:"CreateTime"`
+	UpdateTime   string `json:"UpdateTime"`
+	GzipCompress struct {
+		Enable bool `json:"Enable"`
+	} `json:"GzipCompress"`
+	Origin struct {
 		Origins []struct {
 			Name   string `json:"Name"`
 			Weight int    `json:"Weight"`
@@ -149,21 +180,7 @@ type DescribeDomainDetailResult struct {
 		GenKey  string `json:"GenKey"`
 		GenTTL  int    `json:"GenTTL"`
 	} `json:"UrlAccess"`
-	IPv6Switch bool `json:"IPv6Switch"`
-	Cache      struct {
-		Enable              bool          `json:"Enable"`
-		CacheRules          []interface{} `json:"CacheRules"`
-		StatusCodeCacheRule struct {
-			Enable bool `json:"Enable"`
-			Rules  []struct {
-				Status        string `json:"Status"`
-				CacheTime     int    `json:"CacheTime"`
-				CacheTimeUnit string `json:"CacheTimeUnit"`
-				RespURL       string `json:"RespUrl"`
-				RespCode      string `json:"RespCode"`
-			} `json:"Rules"`
-		} `json:"StatusCodeCacheRule"`
-	} `json:"Cache"`
+	IPv6Switch   bool   `json:"IPv6Switch"`
 	RecordFiling string `json:"RecordFiling"`
 	WebSocket    struct {
 		Enable  bool `json:"Enable"`

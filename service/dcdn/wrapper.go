@@ -13,7 +13,7 @@ func (s *DCDN) DescribeUserDomains(dto *DescribeUserDomainsRequest, options ...O
 
 func (s *DCDN) DescribeDomainConfig(dto *DescribeDomainConfigRequest, options ...OptionArg) (responseBody *DescribeDomainConfigResponse, err error) {
 	responseBody = new(DescribeDomainConfigResponse)
-	if err = s.post("DescribeDomainDetail", dto, responseBody, options...); err != nil {
+	if err = s.post("DescribeDomainConfig", dto, responseBody, options...); err != nil {
 		return
 	}
 	if err = validateResponse(responseBody.ResponseMetadata); err != nil {
