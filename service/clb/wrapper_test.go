@@ -15,8 +15,8 @@ var (
 
 func init() {
 
-	_testAk = os.Getenv("TEST_AK")
-	_testSk = os.Getenv("TEST_SK")
+	_testAk = os.Getenv("BS_AK")
+	_testSk = os.Getenv("BS_SK")
 
 	logrus.SetLevel(logrus.DebugLevel)
 }
@@ -25,7 +25,10 @@ func TestCLB_DescribeLoadBalancers(t *testing.T) {
 	s := NewInstance()
 	s.Client.SetAccessKey(_testAk)
 	s.Client.SetSecretKey(_testSk)
-	s.Client.ServiceInfo.Credentials.Region = "cn-shanghai"
+	// sh 41
+	// bj 1
+	// gz 0
+	s.Client.ServiceInfo.Credentials.Region = "cn-guangzhou"
 
 	page := int64(1)
 	pageSize := int64(2)
@@ -93,7 +96,7 @@ func TestCLB_DescribeCertificates(t *testing.T) {
 	s := NewInstance()
 	s.Client.SetAccessKey(_testAk)
 	s.Client.SetSecretKey(_testSk)
-	s.Client.ServiceInfo.Credentials.Region = "cn-shanghai"
+	s.Client.ServiceInfo.Credentials.Region = "cn-beijing"
 
 	page := int64(1)
 	pageSize := int64(100)

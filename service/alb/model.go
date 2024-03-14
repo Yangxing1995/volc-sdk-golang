@@ -148,21 +148,30 @@ type DescribeListenersResult struct {
 }
 
 type Listener struct {
-	CreateTime    time.Time      `json:"CreateTime"`
-	UpdateTime    time.Time      `json:"UpdateTime"`
-	ListenerID    string         `json:"ListenerId"`
-	ListenerName  string         `json:"ListenerName"`
-	Enabled       string         `json:"Enabled"`
-	Protocol      string         `json:"Protocol"`
-	Port          int            `json:"Port"`
-	Status        string         `json:"Status"`
-	ServerGroupID string         `json:"ServerGroupId"`
-	ServerGroups  []*ServerGroup `json:"ServerGroups"`
-	Description   string         `json:"Description,omitempty"`
-	ACLStatus     string         `json:"AclStatus,omitempty"`
-	ACLType       string         `json:"AclType,omitempty"`
-	ACLIds        []string       `json:"AclIds,omitempty"`
-	CertificateID string         `json:"CertificateId,omitempty"`
+	CreateTime       time.Time          `json:"CreateTime"`
+	UpdateTime       time.Time          `json:"UpdateTime"`
+	ListenerID       string             `json:"ListenerId"`
+	ListenerName     string             `json:"ListenerName"`
+	Enabled          string             `json:"Enabled"`
+	Protocol         string             `json:"Protocol"`
+	Port             int                `json:"Port"`
+	Status           string             `json:"Status"`
+	ServerGroupID    string             `json:"ServerGroupId"`
+	ServerGroups     []*ServerGroup     `json:"ServerGroups"`
+	Description      string             `json:"Description,omitempty"`
+	ACLStatus        string             `json:"AclStatus,omitempty"`
+	ACLType          string             `json:"AclType,omitempty"`
+	ACLIds           []string           `json:"AclIds,omitempty"`
+	CertificateID    string             `json:"CertificateId,omitempty"`
+	CACertificateId  string             `json:"CACertificateId,omitempty"` // 监听器关联的CA证书 ID，创建 HTTPS 监听器时指定 CA 证书，则支持双向认证，否则为单向认证。
+	DomainExtensions []*DomainExtension `json:"DomainExtensions,omitempty"`
+}
+
+type DomainExtension struct {
+	DomainExtensionId string `json:"DomainExtensionId,omitempty"`
+	CertificateId     string `json:"CertificateId,omitempty"`
+	Domain            string `json:"Domain,omitempty"`
+	ListenerId        string `json:"ListenerId,omitempty"`
 }
 
 type ServerGroup struct {
@@ -171,9 +180,26 @@ type ServerGroup struct {
 }
 
 type ModifyListenerAttributesRequest struct {
-	ListenerId    string  `json:"ListenerId"`
-	CertificateId *string `json:"CertificateId"`
+	ListenerId       string                `json:"ListenerId"`
+	CertificateId    *string               `json:"CertificateId,omitempty"`
+	CACertificateId  *string               `json:"CACertificateId,omitempty"`
+	DomainExtensions []*DomainExtensionReq `json:"DomainExtensions,omitempty"` // 仅支持HTTPS协议
 }
+
+type DomainExtensionReq struct {
+	DomainExtensionId string       `json:"DomainExtensionId,omitempty"`
+	CertificateId     string       `json:"CertificateId,omitempty"`
+	Domain            string       `json:"Domain,omitempty"`
+	Action            DomainAction `json:"Action,omitempty"` // 请求时参数
+}
+
+type DomainAction = string
+
+const (
+	DomainActionCreate DomainAction = "create" // 新增
+	DomainActionModify DomainAction = "modify" // 修改
+	DomainActionDelete DomainAction = "delete" // 删除
+)
 
 type ModifyListenerAttributesResponse struct {
 	ResponseMetadata *ResponseMetadata `json:"ResponseMetadata"`

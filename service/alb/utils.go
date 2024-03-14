@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"strconv"
+	"strings"
 )
 
 type CDNError struct {
@@ -102,44 +104,100 @@ func GetStrPtr(str string) *string {
 }
 
 func MergeQueryArgs(body interface{}, query url.Values) (url.Values, error) {
-	t := reflect.TypeOf(body)
-	v := reflect.ValueOf(body)
-	if t.Kind() == reflect.Ptr {
-		t = t.Elem()
+	data := structToMap(body)
+
+	for k, v := range data {
+		query.Set(k, fmt.Sprintf("%s", v))
 	}
-	if v.Kind() == reflect.Ptr {
-		v = v.Elem()
-	}
-	for i := 0; i < t.NumField(); i++ {
-		vi := v.Field(i)
-		if vi.Kind() == reflect.Ptr {
-			if vi.IsNil() {
-				continue
-			}
-			vi = vi.Elem()
-		}
-		if !isBaseType(vi.Kind()) {
-			if vi.Len() <= 0 {
-				continue
-			}
-			return nil, fmt.Errorf("don't support struct or array")
-		}
-		query.Set(t.Field(i).Name, fmt.Sprintf("%v", vi.Interface()))
-	}
+
 	return query, nil
 }
 
-func isBaseType(kind reflect.Kind) bool {
-	switch kind {
-	case reflect.Bool, reflect.String,
-		reflect.Float32, reflect.Float64,
-		reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
-		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		return true
-	case reflect.Interface, reflect.Ptr, reflect.Uintptr:
-		return false
-	case reflect.Struct, reflect.Array, reflect.Map, reflect.Slice:
+func structToMap(obj interface{}) map[string]string {
+	result := make(map[string]string)
+	valueOf := reflect.ValueOf(obj)
+
+	if valueOf.Kind() == reflect.Ptr {
+		valueOf = valueOf.Elem()
+	}
+
+	typeOf := valueOf.Type()
+
+	for i := 0; i < valueOf.NumField(); i++ {
+		field := valueOf.Field(i)
+		fieldType := typeOf.Field(i)
+
+		tag := fieldType.Tag.Get("json")
+
+		// 字段申明了omitempty,且为零值,则跳过
+		if tagParts := strings.Split(tag, ","); len(tagParts) > 1 && tagParts[1] == "omitempty" && isEmptyValue(field) {
+			continue
+		}
+
+		switch field.Kind() {
+		case reflect.Struct:
+			subMap := structToMap(field.Interface())
+			for key, value := range subMap {
+				result[fieldType.Name+"."+key] = value
+			}
+		case reflect.Slice:
+			// 如果是切片类型，递归处理每个元素
+			for j := 0; j < field.Len(); j++ {
+				subMap := structToMap(field.Index(j).Interface())
+				for key, value := range subMap {
+					result[fieldType.Name+"."+strconv.Itoa(j+1)+"."+key] = value
+				}
+			}
+		case reflect.Ptr:
+			// 如果是指针类型，判断具体类型处理
+			if field.IsNil() {
+				continue
+			}
+			elem := field.Elem()
+			switch elem.Kind() {
+			case reflect.Struct:
+				// 如果是结构体指针类型，递归处理
+				subMap := structToMap(elem.Interface())
+				for key, value := range subMap {
+					result[fieldType.Name+"."+key] = value
+				}
+			case reflect.Slice:
+				// 如果是切片指针类型，递归处理每个元素
+				for j := 0; j < field.Elem().Len(); j++ {
+					subMap := structToMap(field.Elem().Index(j).Interface())
+					for key, value := range subMap {
+						result[fieldType.Name+"."+strconv.Itoa(j+1)+"."+key] = value
+					}
+				}
+
+			default:
+				// 其他类型直接取值
+				result[fieldType.Name] = fmt.Sprintf("%v", elem.Interface())
+			}
+		default:
+			// 其他类型直接添加到结果中
+			result[fieldType.Name] = fmt.Sprintf("%v", field.Interface())
+		}
+	}
+
+	return result
+}
+
+func isEmptyValue(v reflect.Value) bool {
+	switch v.Kind() {
+	case reflect.Array, reflect.Map, reflect.Slice, reflect.String:
+		return v.Len() == 0
+	case reflect.Bool:
+		return !v.Bool()
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return v.Int() == 0
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		return v.Uint() == 0
+	case reflect.Float32, reflect.Float64:
+		return v.Float() == 0
+	case reflect.Interface, reflect.Ptr:
+		return v.IsNil()
+	default:
 		return false
 	}
-	return false
 }
