@@ -15,32 +15,36 @@ var (
 
 func init() {
 
-	_testAk = os.Getenv("TEST_AK")
-	_testSk = os.Getenv("TEST_SK")
+	_testAk = os.Getenv("BS_AK")
+	_testSk = os.Getenv("BS_SK")
 
 	logrus.SetLevel(logrus.DebugLevel)
 }
 
-func TestCLB_DescribeLoadBalancers(t *testing.T) {
+func TestALB_DescribeLoadBalancers(t *testing.T) {
 	s := NewInstance()
 	s.Client.SetAccessKey(_testAk)
 	s.Client.SetSecretKey(_testSk)
 
-	page := int64(1)
-	pageSize := int64(2)
+	for _, r := range []string{"cn-shanghai", "cn-beijing", "cn-guangzhou", "ap-southeast-1", "cn-beijing2"} {
+		page := int64(1)
+		pageSize := int64(2)
 
-	gotResponseBody, err := s.DescribeLoadBalancers(&DescribeLoadBalancersRequest{
-		PageNum:  &page,
-		PageSize: &pageSize,
-	})
-	if err != nil {
-		t.Errorf("CLB.DescribeUserDomains() error = %v", err)
-		return
+		s.Client.ServiceInfo.Credentials.Region = r
+
+		gotResponseBody, err := s.DescribeLoadBalancers(&DescribeLoadBalancersRequest{
+			PageNum:  &page,
+			PageSize: &pageSize,
+		})
+		if err != nil {
+			t.Errorf("CLB.DescribeUserDomains() error = %v", err)
+			return
+		}
+
+		jsonBts, _ := json.MarshalIndent(gotResponseBody, "", "  ")
+
+		t.Logf("%s\n", string(jsonBts))
 	}
-
-	jsonBts, _ := json.MarshalIndent(gotResponseBody, "", "  ")
-
-	t.Logf("%s\n", string(jsonBts))
 }
 
 func TestALB_DescribeCertificates(t *testing.T) {
