@@ -1173,12 +1173,16 @@ type ListCertInfo struct {
 	CertName               string
 	ConfiguredDomain       string
 	ConfiguredDomainDetail []ConfiguredDomain
-	Desc                   string
-	DnsName                string
-	EffectiveTime          int64
-	ExpireTime             int64
-	Source                 string
-	Status                 string
+	CertFingerprint        struct {
+		Sha1   string
+		Sha256 string
+	}
+	Desc          string
+	DnsName       string
+	EffectiveTime int64
+	ExpireTime    int64
+	Source        string
+	Status        string
 }
 
 type ListCertInfoRequest struct {
