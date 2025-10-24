@@ -48,4 +48,12 @@ var ApiInfoList = map[string]*base.ApiInfo{
 			"Version": []string{ServiceVersion},
 		},
 	},
+	"ListCertBind": {
+		Method: http.MethodPost,
+		Path:   "/",
+		Query: url.Values{
+			"Action":  []string{"ListCertBind"},
+			"Version": []string{ServiceVersion},
+		},
+	},
 }

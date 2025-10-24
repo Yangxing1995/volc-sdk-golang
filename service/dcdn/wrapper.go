@@ -56,3 +56,15 @@ func (s *DCDN) CreateCertBind(dto *CreateCertBindRequest, options ...OptionArg) 
 	}
 	return
 }
+
+// ListCertBind 查  证书与域名的绑定列表
+func (s *DCDN) ListCertBind(dto *ListCertBindRequest, options ...OptionArg) (responseBody *ListCertBindResponse, err error) {
+	responseBody = new(ListCertBindResponse)
+	if err = s.post("ListCertBind", dto, responseBody, options...); err != nil {
+		return
+	}
+	if err = validateResponse(responseBody.ResponseMetadata); err != nil {
+		return
+	}
+	return
+}

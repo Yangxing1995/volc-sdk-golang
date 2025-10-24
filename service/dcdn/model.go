@@ -218,3 +218,33 @@ type CreateCertBindRequest struct {
 type CreateCertBindResponse struct {
 	ResponseMetadata *ResponseMetadata `json:",omitempty"`
 }
+
+type ListCertBindRequest struct {
+	SearchKey   string   `json:"SearchKey"`
+	PageSize    int      `json:"PageSize"`
+	PageNumber  int      `json:"PageNumber"`
+	ProjectName []string `json:"ProjectName"`
+}
+
+type ListCertBindResult struct {
+	BindList   []*BindInfo `json:"BindList"`
+	PageNumber int         `json:"PageNumber"`
+	PageSize   int         `json:"PageSize"`
+	Total      int         `json:"Total"`
+}
+
+type BindInfo struct {
+	CertSource   string    `json:"CertSource"`
+	CertId       string    `json:"CertId"`
+	CertName     string    `json:"CertName"` //证书的名称 不是证书的通用名称
+	DomainName   string    `json:"DomainName"`
+	DomainId     string    `json:"DomainId"`
+	DeployStatus string    `json:"DeployStatus"`
+	Expire       time.Time `json:"Expire"`
+	CertStatus   string    `json:"CertStatus"`
+}
+
+type ListCertBindResponse struct {
+	ResponseMetadata *ResponseMetadata   `json:"ResponseMetadata"`
+	Result           *ListCertBindResult `json:"Result"`
+}
