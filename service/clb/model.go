@@ -176,26 +176,30 @@ type DescribeListenersResult struct {
 }
 
 type ListenerDetail struct {
-	CreateTime             time.Time    `json:"CreateTime"`
-	UpdateTime             time.Time    `json:"UpdateTime"`
-	ListenerID             string       `json:"ListenerId"`
-	ListenerName           string       `json:"ListenerName"`
-	ACLStatus              string       `json:"AclStatus"`
-	ACLType                string       `json:"AclType"`
-	Bandwidth              int          `json:"Bandwidth"`
-	ACLIds                 []string     `json:"AclIds"`
-	Enabled                string       `json:"Enabled"`
-	Protocol               string       `json:"Protocol"`
-	Scheduler              string       `json:"Scheduler"`
-	ProxyProtocolType      string       `json:"ProxyProtocolType"`
-	PersistenceType        string       `json:"PersistenceType"`
-	PersistenceTimeut      int          `json:"PersistenceTimeut"`
-	ConnectionDrainEnabled string       `json:"ConnectionDrainEnabled"`
-	ConnectionDrainTimeout int          `json:"ConnectionDrainTimeout"`
-	Port                   int          `json:"Port"`
-	Status                 string       `json:"Status"`
-	ServerGroupID          string       `json:"ServerGroupId"`
-	HealthCheck            *HealthCheck `json:"HealthCheck"`
+	CreateTime              time.Time    `json:"CreateTime"`
+	UpdateTime              time.Time    `json:"UpdateTime"`
+	ListenerID              string       `json:"ListenerId"`
+	ListenerName            string       `json:"ListenerName"`
+	ACLStatus               string       `json:"AclStatus"`
+	ACLType                 string       `json:"AclType"`
+	Bandwidth               int          `json:"Bandwidth"`
+	ACLIds                  []string     `json:"AclIds"`
+	Enabled                 string       `json:"Enabled"`
+	Protocol                string       `json:"Protocol"`
+	Scheduler               string       `json:"Scheduler"`
+	ProxyProtocolType       string       `json:"ProxyProtocolType"`
+	PersistenceType         string       `json:"PersistenceType"`
+	PersistenceTimeut       int          `json:"PersistenceTimeut"`
+	ConnectionDrainEnabled  string       `json:"ConnectionDrainEnabled"`
+	ConnectionDrainTimeout  int          `json:"ConnectionDrainTimeout"`
+	Port                    int          `json:"Port"`
+	Status                  string       `json:"Status"`
+	ServerGroupID           string       `json:"ServerGroupId"`
+	HealthCheck             *HealthCheck `json:"HealthCheck"`
+	CertCenterCertificateId string       `json:"CertCenterCertificateId"` // 证书中心的证书的ID
+	CertificateId           string       `json:"CertificateId"`           // CLB侧证书管理模块的证书的ID
+	CAEnabled               string       `json:"CAEnabled"`               // 是否开启双向认证: on-开启, off-不开启
+	CACertificateId         string       `json:"CACertificateId"`         // 双向认证的CA证书
 }
 
 type HealthCheck struct {

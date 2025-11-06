@@ -44,16 +44,34 @@ func TestCertificate_ImportCertificate(t *testing.T) {
 	t.Logf("%s\n", string(jsonBts))
 }
 
-func TestCertificate_CertificateGetInstance(t *testing.T) {
+func TestCertificate_CertificateGetInstanceList(t *testing.T) {
 	s := NewInstance()
 	s.Client.SetAccessKey(_testAk)
 	s.Client.SetSecretKey(_testSk)
 
 	limit := int64(4)
 	page := int64(1)
+	gotResponseBody, err := s.CertificateGetInstanceList(&CertificateGetInstanceListRequest{
+		PageSize:   &limit,
+		PageNumber: &page,
+	})
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	jsonBts, _ := json.MarshalIndent(gotResponseBody, "", "  ")
+
+	t.Logf("%s\n", string(jsonBts))
+}
+
+func TestCertificate_CertificateGetInstance(t *testing.T) {
+	s := NewInstance()
+	s.Client.SetAccessKey(_testAk)
+	s.Client.SetSecretKey(_testSk)
+
 	gotResponseBody, err := s.CertificateGetInstance(&CertificateGetInstanceRequest{
-		Limit: &limit,
-		Page:  &page,
+		InstanceId: "cert-63412976b4864fd49dd33acf5c80984b",
 	})
 
 	if err != nil {

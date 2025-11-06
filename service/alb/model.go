@@ -148,30 +148,37 @@ type DescribeListenersResult struct {
 }
 
 type Listener struct {
-	CreateTime       time.Time          `json:"CreateTime"`
-	UpdateTime       time.Time          `json:"UpdateTime"`
-	ListenerID       string             `json:"ListenerId"`
-	ListenerName     string             `json:"ListenerName"`
-	Enabled          string             `json:"Enabled"`
-	Protocol         string             `json:"Protocol"`
-	Port             int                `json:"Port"`
-	Status           string             `json:"Status"`
-	ServerGroupID    string             `json:"ServerGroupId"`
-	ServerGroups     []*ServerGroup     `json:"ServerGroups"`
-	Description      string             `json:"Description,omitempty"`
-	ACLStatus        string             `json:"AclStatus,omitempty"`
-	ACLType          string             `json:"AclType,omitempty"`
-	ACLIds           []string           `json:"AclIds,omitempty"`
-	CertificateID    string             `json:"CertificateId,omitempty"`
-	CACertificateId  string             `json:"CACertificateId,omitempty"` // 监听器关联的CA证书 ID，创建 HTTPS 监听器时指定 CA 证书，则支持双向认证，否则为单向认证。
-	DomainExtensions []*DomainExtension `json:"DomainExtensions,omitempty"`
+	CreateTime              time.Time          `json:"CreateTime"`
+	UpdateTime              time.Time          `json:"UpdateTime"`
+	ListenerID              string             `json:"ListenerId"`
+	ListenerName            string             `json:"ListenerName"`
+	Enabled                 string             `json:"Enabled"`
+	Protocol                string             `json:"Protocol"`
+	Port                    int                `json:"Port"`
+	Status                  string             `json:"Status"`
+	ServerGroupID           string             `json:"ServerGroupId"`
+	ServerGroups            []*ServerGroup     `json:"ServerGroups"`
+	Description             string             `json:"Description,omitempty"`
+	ACLStatus               string             `json:"AclStatus,omitempty"`
+	ACLType                 string             `json:"AclType,omitempty"`
+	ACLIds                  []string           `json:"AclIds,omitempty"`
+	CertificateSource       string             `json:"CertificateSource,omitempty"` // alb cert_center
+	CertificateID           string             `json:"CertificateId,omitempty"`
+	CertCenterCertificateId string             `json:"CertCenterCertificateId,omitempty"`
+	CACertificateSource     string             `json:"CACertificateSource,omitempty"` // alb  pca_root pca_sub
+	CACertificateId         string             `json:"CACertificateId,omitempty"`     // 监听器关联的CA证书 ID，创建 HTTPS 监听器时指定 CA 证书，则支持双向认证，否则为单向认证。
+	PcaRootCACertificateId  string             `json:"PcaRootCACertificateId,omitempty"`
+	PcaSubCACertificateId   string             `json:"PcaSubCACertificateId,omitempty"`
+	DomainExtensions        []*DomainExtension `json:"DomainExtensions,omitempty"`
 }
 
 type DomainExtension struct {
-	DomainExtensionId string `json:"DomainExtensionId,omitempty"`
-	CertificateId     string `json:"CertificateId,omitempty"`
-	Domain            string `json:"Domain,omitempty"`
-	ListenerId        string `json:"ListenerId,omitempty"`
+	DomainExtensionId       string `json:"DomainExtensionId,omitempty"`
+	CertificateId           string `json:"CertificateId,omitempty"`
+	Domain                  string `json:"Domain,omitempty"`
+	CertificateSource       string `json:"CertificateSource,omitempty"`       // HTTPS监听器关联的默认证书的来源，取值如下： alb：表示通过 ALB 上传的证书。 cert_center：表示通过火山引擎证书中心购买或上传的 SSL 证书。
+	CertCenterCertificateId string `json:"CertCenterCertificateId,omitempty"` // 域名使用的服务器证书 ID。当证书来源为 cert_center 时生效。
+	ListenerId              string `json:"ListenerId,omitempty"`
 }
 
 type ServerGroup struct {

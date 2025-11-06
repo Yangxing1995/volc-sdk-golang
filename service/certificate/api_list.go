@@ -17,10 +17,18 @@ var ApiInfoList = map[string]*base.ApiInfo{
 		},
 	},
 	"CertificateGetInstance": {
-		Method: http.MethodGet,
+		Method: http.MethodPost,
 		Path:   "/",
 		Query: url.Values{
 			"Action":  []string{"CertificateGetInstance"},
+			"Version": []string{ServiceVersion},
+		},
+	},
+	"CertificateGetInstanceList": {
+		Method: http.MethodPost,
+		Path:   "/",
+		Query: url.Values{
+			"Action":  []string{"CertificateGetInstanceList"},
 			"Version": []string{ServiceVersion},
 		},
 	},

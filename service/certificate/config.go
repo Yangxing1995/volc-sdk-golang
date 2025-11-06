@@ -10,7 +10,7 @@ import (
 
 const (
 	DefaultRegion  = "cn-north-1"
-	ServiceVersion = "2021-06-01"
+	ServiceVersion = "2024-10-01"
 	ServiceName    = "certificate_service"
 )
 
