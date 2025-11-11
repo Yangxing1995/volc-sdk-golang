@@ -196,6 +196,7 @@ type ListenerDetail struct {
 	Status                  string       `json:"Status"`
 	ServerGroupID           string       `json:"ServerGroupId"`
 	HealthCheck             *HealthCheck `json:"HealthCheck"`
+	CertificateSource       CertSource   `json:"CertificateSource"`       // 监听器关联的证书的来源
 	CertCenterCertificateId string       `json:"CertCenterCertificateId"` // 证书中心的证书的ID
 	CertificateId           string       `json:"CertificateId"`           // CLB侧证书管理模块的证书的ID
 	CAEnabled               string       `json:"CAEnabled"`               // 是否开启双向认证: on-开启, off-不开启
@@ -211,9 +212,27 @@ type HealthCheck struct {
 }
 
 type ModifyListenerAttributesRequest struct {
-	ListenerId    string  `json:"ListenerId"`
-	CertificateId *string `json:"CertificateId"`
+	ListenerId string `json:"ListenerId"`
+
+	CACertificateId string `json:"CACertificateId"` // CA 证书ID。可选
+
+	CertificateSource *CertSource `json:"CertificateSource"` // 监听器关联的证书的来源，取值：
+	//clb：表示通过CLB 侧上传的证书；
+	//cert_center：表示通过火山证书中心上传的证书；
+	//参数说明：
+	//该参数仅对HTTPS 监听器有效，其他协议类型监听器传入该参数时，忽略；
+	//当指定监听器为HTTPS 协议时，该参数未填写时，默认取值为 clb；
+
+	CertificateId           *string `json:"CertificateId"`
+	CertCenterCertificateId *string `json:"CertCenterCertificateId"` // 监听器关联的证书ID，修改 HTTPS 监听器且证书来源为 cert_center 时必传。
 }
+
+type CertSource = string
+
+const (
+	CertSourceDefault    CertSource = "clb"
+	CertSourceCertCenter CertSource = "cert_center"
+)
 
 type ModifyListenerAttributesResponse struct {
 	ResponseMetadata *ResponseMetadata `json:"ResponseMetadata"`
