@@ -24,11 +24,11 @@ var ApiInfoList = map[string]*base.ApiInfo{
 			"Version": []string{ServiceVersion},
 		},
 	},
-	"DescribeDomainConfig": {
+	"ListDomainConfig": {
 		Method: http.MethodPost,
 		Path:   "/",
 		Query: url.Values{
-			"Action":  []string{"DescribeDomainConfig"},
+			"Action":  []string{"ListDomainConfig"},
 			"Version": []string{ServiceVersion},
 		},
 	},

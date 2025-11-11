@@ -68,14 +68,14 @@ func TestDCDN_UploadSelfCert(t *testing.T) {
 	t.Logf("%s\n", string(jsonBts))
 }
 
-func TestDCDN_DescribeDomainConfig(t *testing.T) {
+func TestDCDN_ListDomainConfig(t *testing.T) {
 
 	t.Run("ok", func(t *testing.T) {
 		s := NewInstance()
 		s.Client.SetAccessKey(_testAk)
 		s.Client.SetSecretKey(_testSk)
 
-		gotResponseBody, err := s.DescribeDomainConfig(&DescribeDomainConfigRequest{
+		gotResponseBody, err := s.ListDomainConfig(&DescribeDomainConfigRequest{
 			Domains: []string{"fast2.ldlb.site"},
 		})
 		if err != nil {
@@ -108,27 +108,31 @@ func TestDCDN_DescribeDomainConfig(t *testing.T) {
 		t.Logf("%+v\n", gotResponseBody.Result.AllDomainNum)
 		t.Logf("%+v\n", gotResponseBody.Result.OnlineDomainNum)
 
-		domains := []string{}
+		//domains := []string{}
 
-		for _, v := range gotResponseBody.Result.Domains {
-			t.Logf("%+v\n", v.Domain)
-			domains = append(domains, v.Domain)
-		}
+		//for _, v := range gotResponseBody.Result.Domains {
+		//	t.Logf("%+v\n", v.Domain)
+		//	domains = append(domains, v.Domain)
+		//}
 
-		res, err := s.DescribeDomainConfig(&DescribeDomainConfigRequest{
-			Domains: domains,
+		res, err := s.ListDomainConfig(&DescribeDomainConfigRequest{
+			//Domains: domains,
 		})
 		if err != nil {
 			t.Error(err)
 			return
 		}
 
-		t.Logf("%d\n", len(res.Result))
+		t.Logf("total %d\n", res.Result.Total)
 
-		for _, v := range res.Result {
-			jsonBts, _ := json.MarshalIndent(v.HTTPS.CertBind, "", "  ")
+		for index, v := range res.Result.DomainList {
+			jsonBts, _ := json.MarshalIndent(v, "", "  ")
 
 			t.Logf("%s\n", string(jsonBts))
+			if index > 10 {
+				t.Logf("DomainList count %d more than 10, break", len(res.Result.DomainList))
+				break
+			}
 		}
 	})
 }
