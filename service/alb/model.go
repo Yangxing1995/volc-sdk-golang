@@ -162,7 +162,7 @@ type Listener struct {
 	ACLStatus               string             `json:"AclStatus,omitempty"`
 	ACLType                 string             `json:"AclType,omitempty"`
 	ACLIds                  []string           `json:"AclIds,omitempty"`
-	CertificateSource       string             `json:"CertificateSource,omitempty"` // alb cert_center
+	CertificateSource       CertSource         `json:"CertificateSource,omitempty"` // alb cert_center pca_leaf
 	CertificateID           string             `json:"CertificateId,omitempty"`
 	CertCenterCertificateId string             `json:"CertCenterCertificateId,omitempty"`
 	CACertificateSource     string             `json:"CACertificateSource,omitempty"` // alb  pca_root pca_sub
@@ -173,12 +173,12 @@ type Listener struct {
 }
 
 type DomainExtension struct {
-	DomainExtensionId       string `json:"DomainExtensionId,omitempty"`
-	CertificateId           string `json:"CertificateId,omitempty"`
-	Domain                  string `json:"Domain,omitempty"`
-	CertificateSource       string `json:"CertificateSource,omitempty"`       // HTTPS监听器关联的默认证书的来源，取值如下： alb：表示通过 ALB 上传的证书。 cert_center：表示通过火山引擎证书中心购买或上传的 SSL 证书。
-	CertCenterCertificateId string `json:"CertCenterCertificateId,omitempty"` // 域名使用的服务器证书 ID。当证书来源为 cert_center 时生效。
-	ListenerId              string `json:"ListenerId,omitempty"`
+	DomainExtensionId       string     `json:"DomainExtensionId,omitempty"`
+	Domain                  string     `json:"Domain,omitempty"`
+	CertificateSource       CertSource `json:"CertificateSource,omitempty"` // HTTPS监听器关联的默认证书的来源，取值如下： alb：表示通过 ALB 上传的证书。 cert_center：表示通过火山引擎证书中心购买或上传的 SSL 证书。
+	CertificateId           string     `json:"CertificateId,omitempty"`
+	CertCenterCertificateId string     `json:"CertCenterCertificateId,omitempty"` // 域名使用的服务器证书 ID。当证书来源为 cert_center 时生效。
+	ListenerId              string     `json:"ListenerId,omitempty"`
 }
 
 type ServerGroup struct {
@@ -187,17 +187,21 @@ type ServerGroup struct {
 }
 
 type ModifyListenerAttributesRequest struct {
-	ListenerId       string                `json:"ListenerId"`
-	CertificateId    *string               `json:"CertificateId,omitempty"`
-	CACertificateId  *string               `json:"CACertificateId,omitempty"`
-	DomainExtensions []*DomainExtensionReq `json:"DomainExtensions,omitempty"` // 仅支持HTTPS协议
+	ListenerId              string                `json:"ListenerId"`
+	CertificateSource       *CertSource           `json:"CertificateSource"` // 监听器关联的默认证书的来源，每次修改默认证书时，务必指定该参数，否则默认值为 alb ，系统将按 alb 证书处理。支持的取值如下： alb（默认）：表示通过 ALB 上传的证书。 cert_center：表示通过火山证书中心购买/上传的 SSL 证书。 pca_leaf：表示通过火山证书中心购买/上传的私有证书。
+	CertificateId           *string               `json:"CertificateId,omitempty"`
+	CertCenterCertificateId *string               `json:"CertCenterCertificateId"` // 监听器关联的证书ID，当修改 HTTPS 监听器的服务器证书且证书来源为 cert_center 时，需要指定该参数。
+	CACertificateId         *string               `json:"CACertificateId,omitempty"`
+	DomainExtensions        []*DomainExtensionReq `json:"DomainExtensions,omitempty"` // 仅支持HTTPS协议
 }
 
 type DomainExtensionReq struct {
-	DomainExtensionId string       `json:"DomainExtensionId,omitempty"`
-	CertificateId     string       `json:"CertificateId,omitempty"`
-	Domain            string       `json:"Domain,omitempty"`
-	Action            DomainAction `json:"Action,omitempty"` // 请求时参数
+	DomainExtensionId       string       `json:"DomainExtensionId,omitempty"`
+	CertificateSource       CertSource   `json:"CertificateSource"` // 监听器关联的默认证书的来源，每次修改默认证书时，务必指定该参数，否则默认值为 alb ，系统将按 alb 证书处理。支持的取值如下： alb（默认）：表示通过 ALB 上传的证书。 cert_center：表示通过火山证书中心购买/上传的 SSL 证书。 pca_leaf：表示通过火山证书中心购买/上传的私有证书。
+	CertificateId           string       `json:"CertificateId,omitempty"`
+	CertCenterCertificateId string       `json:"CertCenterCertificateId"` // 监听器关联的证书ID，当修改 HTTPS 监听器的服务器证书且证书来源为 cert_center 时，需要指定该参数。
+	Domain                  string       `json:"Domain,omitempty"`
+	Action                  DomainAction `json:"Action,omitempty"` // 请求时参数
 }
 
 type DomainAction = string
@@ -206,6 +210,17 @@ const (
 	DomainActionCreate DomainAction = "create" // 新增
 	DomainActionModify DomainAction = "modify" // 修改
 	DomainActionDelete DomainAction = "delete" // 删除
+)
+
+type CertSource = string
+
+const (
+	CertSourceDefault    CertSource = "alb"
+	CertSourceCertCenter CertSource = "cert_center"
+	CertSourcePcaLeaf    CertSource = "pca_leaf"
+
+	CertSourcePcaRoot CertSource = "pca_root"
+	CertSourcePcaSub  CertSource = "pca_sub"
 )
 
 type ModifyListenerAttributesResponse struct {
