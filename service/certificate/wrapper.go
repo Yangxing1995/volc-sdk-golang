@@ -1,5 +1,7 @@
 package certificate
 
+// ImportCertificate 上传证书
+// @https://www.volcengine.com/docs/6638/1365580?lang=zh
 func (s *Certificate) ImportCertificate(dto *ImportCertificateRequest, options ...OptionArg) (responseBody *ImportCertificateResponse, err error) {
 	responseBody = new(ImportCertificateResponse)
 	if err = s.post("ImportCertificate", dto, responseBody, options...); err != nil {

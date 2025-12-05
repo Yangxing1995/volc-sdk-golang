@@ -26,25 +26,25 @@ type BaseFindCond struct {
 }
 
 type ImportCertificateRequest struct {
-	Tag                 string           `json:"tag,omitempty"`
-	Project             string           `json:"project,omitempty"`
-	NoVerifyAndFixChain *bool            `json:"no_verify_and_fix_chain,omitempty"` // 跳过检查证书的合法性
-	Repeatable          *bool            `json:"repeatable,omitempty"`
-	CertificateInfo     *CertificateInfo `json:"certificate_info,omitempty"`
+	Tag                 string           `json:"Tag,omitempty"`
+	Project             string           `json:"ProjectName,omitempty"`
+	NoVerifyAndFixChain *bool            `json:"NoVerifyAndFixChain,omitempty"` // 跳过检查证书的合法性
+	Repeatable          *bool            `json:"Repeatable,omitempty"`          // 火山云会默认检查重复的证书
+	CertificateInfo     *CertificateInfo `json:"CertificateInfo,omitempty"`
 
-	GmCertificateInfo *GmCertificateInfo `json:"gm_certificate_info,omitempty"`
+	GmCertificateInfo *GmCertificateInfo `json:"GmCertificateInfo,omitempty"`
 }
 
 type CertificateInfo struct {
-	Certificate string `json:"certificate"`
-	PrivateKey  string `json:"private_key"`
+	Certificate string `json:"CertificateChain"`
+	PrivateKey  string `json:"PrivateKey"`
 }
 
 type GmCertificateInfo struct {
-	EncryptCertificate string `json:"encrypt_certificate"`
-	EncryptPrivateKey  string `json:"encrypt_private_key"`
-	SignCertificate    string `json:"sign_certificate"`
-	SignPrivateKey     string `json:"sign_private_key"`
+	EncryptCertificate string `json:"EncryptCertificateChain"`
+	EncryptPrivateKey  string `json:"EncryptPrivateKey"`
+	SignCertificate    string `json:"SignCertificateChain"`
+	SignPrivateKey     string `json:"SignPrivateKey"`
 }
 
 type ImportCertificateResponse struct {
@@ -53,8 +53,8 @@ type ImportCertificateResponse struct {
 }
 
 type ImportCertificateResult struct {
-	ID       string `json:"id"`
-	RepeatID string `json:"repeat_id"` // 重复证书的ID
+	ID       string `json:"InstanceId"`
+	RepeatID string `json:"RepeatId"` // 重复证书的ID
 }
 
 type CertificateGetInstanceListRequest struct {
