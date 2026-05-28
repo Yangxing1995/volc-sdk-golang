@@ -18,8 +18,8 @@ type ResponseMetadata struct {
 }
 
 type DescribeLoadBalancersRequest struct {
-	PageNum  *int64 `json:",omitempty"`
-	PageSize *int64 `json:",omitempty"`
+	PageNumber *int64 `json:",omitempty"`
+	PageSize   *int64 `json:",omitempty"`
 }
 
 type DescribeLoadBalancersResponse struct {

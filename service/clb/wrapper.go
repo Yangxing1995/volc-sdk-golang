@@ -1,5 +1,6 @@
 package clb
 
+// @https://www.volcengine.com/docs/6406/71772?lang=zh
 func (s *CLB) DescribeLoadBalancers(dto *DescribeLoadBalancersRequest, options ...OptionArg) (responseBody *DescribeLoadBalancersResponse, err error) {
 	responseBody = new(DescribeLoadBalancersResponse)
 	if err = s.post("DescribeLoadBalancers", dto, responseBody, options...); err != nil {
