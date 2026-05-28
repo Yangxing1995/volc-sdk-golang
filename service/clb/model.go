@@ -157,7 +157,7 @@ type Ipv6AddressBandwidth struct {
 }
 
 type DescribeListenersRequest struct {
-	PageNum        *int64  `json:",omitempty"`
+	PageNumber     *int64  `json:",omitempty"`
 	PageSize       *int64  `json:",omitempty"`
 	LoadBalancerId *string `json:"LoadBalancerId"`
 }

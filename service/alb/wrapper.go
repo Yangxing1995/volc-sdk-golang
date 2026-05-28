@@ -22,6 +22,7 @@ func (s *ALB) DescribeLoadBalancerAttributes(dto *DescribeLoadBalancerAttributes
 	return
 }
 
+// @https://www.volcengine.com/docs/6406/113684?lang=zh
 func (s *ALB) DescribeListeners(dto *DescribeListenersRequest, options ...OptionArg) (responseBody *DescribeListenersResponse, err error) {
 	responseBody = new(DescribeListenersResponse)
 	if err = s.post("DescribeListeners", dto, responseBody, options...); err != nil {
