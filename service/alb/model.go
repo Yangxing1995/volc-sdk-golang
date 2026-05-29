@@ -174,7 +174,8 @@ type Listener struct {
 
 type DomainExtension struct {
 	DomainExtensionId       string     `json:"DomainExtensionId,omitempty"`
-	Domain                  string     `json:"Domain,omitempty"`
+	Domain                  string     `json:"Domain"`                      // 域名。当实例的SniAutoMatch="off"的时候，为用户输入的域名；否则为""
+	San                     string     `json:"San"`                         // 证书的CommonName、扩展域名和IP， 用‘，’分隔。
 	CertificateSource       CertSource `json:"CertificateSource,omitempty"` // HTTPS监听器关联的默认证书的来源，取值如下： alb：表示通过 ALB 上传的证书。 cert_center：表示通过火山引擎证书中心购买或上传的 SSL 证书。
 	CertificateId           string     `json:"CertificateId,omitempty"`
 	CertCenterCertificateId string     `json:"CertCenterCertificateId,omitempty"` // 域名使用的服务器证书 ID。当证书来源为 cert_center 时生效。
