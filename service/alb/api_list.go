@@ -32,6 +32,14 @@ var ApiInfoList = map[string]*base.ApiInfo{
 			"Version": []string{ServiceVersion},
 		},
 	},
+	"DescribeListenerAttributes": {
+		Method: http.MethodGet,
+		Path:   "/",
+		Query: url.Values{
+			"Action":  []string{"DescribeListenerAttributes"},
+			"Version": []string{ServiceVersion},
+		},
+	},
 	"ModifyListenerAttributes": {
 		Method: http.MethodGet,
 		Path:   "/",

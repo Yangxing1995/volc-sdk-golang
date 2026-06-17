@@ -35,6 +35,18 @@ func (s *ALB) DescribeListeners(dto *DescribeListenersRequest, options ...Option
 	return
 }
 
+// @https://www.volcengine.com/docs/6406/113686?lang=zh
+func (s *ALB) DescribeListenerAttributes(dto *DescribeListenerAttributesRequest, options ...OptionArg) (responseBody *DescribeListenerAttributesResponse, err error) {
+	responseBody = new(DescribeListenerAttributesResponse)
+	if err = s.post("DescribeListenerAttributes", dto, responseBody, options...); err != nil {
+		return
+	}
+	if err = validateResponse(responseBody.ResponseMetadata); err != nil {
+		return
+	}
+	return
+}
+
 // ModifyListenerAttributes .
 func (s *ALB) ModifyListenerAttributes(dto *ModifyListenerAttributesRequest, options ...OptionArg) (responseBody *ModifyListenerAttributesResponse, err error) {
 	responseBody = new(ModifyListenerAttributesResponse)
